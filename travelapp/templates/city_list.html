@@ -1,0 +1,15 @@
+<!-- templates/city_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City List</title>
+</head>
+<body>
+    <h1>City List</h1>
+    <ul>
+        {% for city_detail in city_details %}
+            <li>{{ city_detail.city }} - {{ city_detail.detail }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
