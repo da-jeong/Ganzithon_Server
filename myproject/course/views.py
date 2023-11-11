@@ -15,28 +15,6 @@ from .serializers import CourseSerializer, PlanSerializer
 
 # Create your views here.
 
-# class PlanDetail(APIView):
-#     def get(self, request):
-#         plans = Plan.objects.()
-
-
-# class CourseList(APIView):
-#     # authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     # permission_classes = [IsAuthenticatedOrReadOnly]
-
-#     def get(self, request):
-#         courses = Course.objects.all()
-#         serializer = CourseSerializer(courses, many=True)
-#         # for c in Course.objects.all():
-#         #     plans = Plan.objects.filter(pk=)
-#         return Response(serializer.data)
-
-#     def post(self, request):
-#         serializer = CourseSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
@@ -44,9 +22,6 @@ class CourseList(generics.ListCreateAPIView):
 #     authentication_classes = [SessionAuthentication, BasicAuthentication]
 #     permission_classes = [IsAuthenticatedOrReadOnly]
 
-#     def perform_create(self, serializer):
-#         planlist = self.request.plans
-#         serializer.save(planlist=planlist)
 
 
 
@@ -88,29 +63,6 @@ class PlanList(generics.ListCreateAPIView):
         queryset = Plan.objects.filter(course_num = course_id)
         return queryset 
     
-# class PlanDetail(APIView):
-#     def get_object(self, pk):
-#         course = get_object_or_404(Course, pk=pk)
-#         return course
-    
-#     def get(self, request, pk):
-#         course = self.get_object(pk)
-#         serializer = CourseSerializer(course)
-#         queryset = 
-
-# class PlanDetail(generics.RetrieveAPIView):
-#     queryset = Course.objects.filter(pk=pk)
-#     serializer_class = PlanSerializer
-
-#     #{id: , t:, p:, m: , daynum: ,...}
-
-#     def get_queryset(self):
-#         # day_number = self.request.GET.get('day')
-#         queryset = Plan.objects.filter(day_num = self.kwargs['day'])
-#         return queryset
-    
-#     # authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     # permission_classes = [IsAuthenticatedOrReadOnly]
 
 # @api_view(['GET'])
 # def plan_detail(request, pk, day):
