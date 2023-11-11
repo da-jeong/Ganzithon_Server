@@ -6,33 +6,22 @@ import uuid
 
 class UserManager(BaseUserManager):
     # 일반 user 생성
-    def create_user(self, email, nickname, phone, username, birth, name, password=None):#  nickname, 
-        if not email:
-            raise ValueError('must have user email')
-        if not nickname:
-            raise ValueError('must have user nickname')
-        if not phone:
-            raise ValueError('must have user phone')
+    def create_user(self, username, password=None):#  nickname, 
+
         if not username:
             raise ValueError('must have usernames')
         user = self.model(
-            email = self.normalize_email(email),
-            nickname = nickname,
-            phone = phone, 
+            #email = self.normalize_email(email),
             username = username, 
-            birth = birth, 
-            name=name
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
     # 관리자 user 생성
-    def create_superuser(self, email, nickname, username, password=None):
+    def create_superuser(self, username, password=None):
         user = self.create_user(
-            email = email,
             password = password,
-            nickname = nickname,
             username = username
         )
         token = Token.objects.create(user=user)
@@ -42,14 +31,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     userId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(default='', null=False, blank=False, unique=True)
-    nickname = models.CharField(default='', max_length=124, null=False, blank=False, unique=False)
     username = models.CharField(max_length=128, unique=True, blank=True)
-    phone = models.CharField(max_length=128)
-    birth = models.CharField(max_length=6)
-    name= models.CharField(max_length=128)
-    is_certified = models.BooleanField(default=False)
-    verification_code = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
     # User 모델의 필수 field
     is_active = models.BooleanField(default=True)    
@@ -77,7 +59,7 @@ class User(AbstractBaseUser):
     # 사용자의 username field는 nickname으로 설정
     USERNAME_FIELD = 'username'
     # 필수로 작성해야하는 field
-    REQUIRED_FIELDS = ['nickname', 'age']
+   # REQUIRED_FIELDS = ['username']
 
     def save(self, *args, **kwargs):
         if not self.userId:
