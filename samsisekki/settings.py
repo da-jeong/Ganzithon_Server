@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'travelapp',
+    'course',
     # django-rest-auth
     'rest_framework',
     'rest_framework_simplejwt',
