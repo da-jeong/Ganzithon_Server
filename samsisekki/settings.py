@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
+'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,7 +69,27 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = 'account.User'
 
+CORS_ORIGIN_ALLOW_ALL = True # 모든 호스트 허용
+
+CORS_ALLOW_METHODS = [
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT',
+]
+
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+'djangorestframework_camel_case.render.CamelCaseJSONRenderer', 
+'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+),
+'DEFAULT_PARSER_CLASSES': (
+'djangorestframework_camel_case.parser.CamelCaseFormParser', 
+'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
