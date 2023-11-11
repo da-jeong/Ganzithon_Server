@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("email", "nickname", "username", "password", "repassword", "phone", "birth", "name")
+        fields = ("username", "password", "repassword")
 
     def validate(self, data):
         if data['password'] != data['repassword']:
@@ -24,12 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         generated_uuid = uuid.uuid4()
         user = User.objects.create_user(
-            nickname=validated_data['nickname'],
-            email=validated_data['email'],
             username=validated_data['username'],
-            phone=validated_data['phone'],
-            birth=validated_data['birth'],
-            name=validated_data['name']
         )
         password = validated_data['password']
         user.set_password(password)
@@ -43,7 +38,7 @@ class ProfileSerializer(serializers.ModelSerializer): # 전체 유저 정보 조
     created_at = serializers.DateTimeField(read_only=True)
     class Meta:
         model = User
-        fields = ['userId', 'email', 'nickname', 'username', 'phone', 'birth', 'name', 'password', 'created_at']
+        fields = ['userId', 'username', 'password']
 
 class LoginSerializer(serializers.Serializer):  # 회원가입한 유저 로그인 
     username = serializers.CharField(required=True)
@@ -58,12 +53,12 @@ class LoginSerializer(serializers.Serializer):  # 회원가입한 유저 로그�
         raise serializers.ValidationError(
             {"error":"Unable to log in with provided credentials."})
     
-class EmailVerificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['email', 'verification_code']
+# class EmailVerificationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['email', 'verification_code']
 
-class EmailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['email']
+# class EmailSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['email']
