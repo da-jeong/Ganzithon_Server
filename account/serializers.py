@@ -35,7 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer): # 전체 유저 정보 조회
     #email = serializers.EmailField(read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
+    #created_at = serializers.DateTimeField(read_only=True)
     class Meta:
         model = User
         fields = ['userId', 'username', 'password']
