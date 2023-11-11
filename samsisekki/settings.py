@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'travelapp',
+    'corsheaders',
+
     # django-rest-auth
     'rest_framework',
     'rest_framework_simplejwt',
@@ -55,6 +57,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
+    'django.middleware.common.CommonMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,6 +71,17 @@ MIDDLEWARE = [
 AUTH_USER_MODEL = 'account.User'
 
 REST_FRAMEWORK = {
+
+    'DEFAULT_RENDERER_CLASSES': (
+'djangorestframework_camel_case.render.CamelCaseJSONRenderer', 
+'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+),
+'DEFAULT_PARSER_CLASSES': (
+'djangorestframework_camel_case.parser.CamelCaseFormParser', 
+'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+),
+    
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -77,6 +92,16 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny', # 누구나 접근
     ),
 }
+
+CORS_ORIGIN_ALLOW_ALL = True # 모든 호스트 허용
+CORS_ALLOW_METHODS = [
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT',
+]
 
 
 from datetime import timedelta
